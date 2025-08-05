@@ -13,13 +13,16 @@ COPY pom.xml .
 RUN chmod +x mvnw
 
 # Download dependencies and build the project
-RUN ./mvnw clean package -DskipTests
+RUN ./mvnw clean package
 
 # Now create a smaller image with only the JAR file
 FROM eclipse-temurin:17-jre
 
 # Set the working directory
 WORKDIR /app
+
+RUN ls -l /app/target
+
 
 # Copy the jar file built in the first stage
 COPY --from=build /app/target/*.jar app.jar

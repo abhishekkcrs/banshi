@@ -9,6 +9,9 @@ COPY .mvn/ .mvn/
 COPY mvnw .
 COPY pom.xml .
 
+# Make the mvnw file executable
+RUN chmod +x mvnw
+
 # Download dependencies and build the project
 RUN ./mvnw clean package -DskipTests
 

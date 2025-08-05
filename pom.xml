@@ -92,17 +92,6 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <build>
-    <plugins>
-        <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-                <mainClass>org.banshi.BanshiApplication</mainClass> <!-- Replace with your main class path -->
-            </configuration>
-        </plugin>
-    </plugins>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -113,9 +102,9 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <mainClass>org.banshi.BanshiApplication</mainClass> <!-- Replace with your main class path -->
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
 </project>

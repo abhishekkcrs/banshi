@@ -102,7 +102,6 @@
             </configuration>
         </plugin>
     </plugins>
-</build>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>

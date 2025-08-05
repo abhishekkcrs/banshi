@@ -1,34 +1,32 @@
-# Use the official OpenJDK 17 image from Docker Hub
+# Stage 1: Build the app
 FROM eclipse-temurin:17-jdk AS build
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the Maven wrapper and the pom.xml
-COPY .mvn/ .mvn/
-COPY mvnw .
-COPY pom.xml .
+# Copy Maven wrapper scripts
+COPY mvnw pom.xml ./
+COPY .mvn .mvn
 
-# Make the mvnw file executable
+# Copy the rest of the source
+COPY src src
+
+# Give execute permission to Maven wrapper
 RUN chmod +x mvnw
 
-# Download dependencies and build the project
-RUN ./mvnw clean package
-
-# Now create a smaller image with only the JAR file
-FROM eclipse-temurin:17-jre
-
-# Set the working directory
-WORKDIR /app
+# Build the application (skip tests for faster build)
+RUN ./mvnw clean package -DskipTests
 
 RUN ls -l /app/target
+RUN find /app/target
 
+# Stage 2: Run the app
+FROM eclipse-temurin:17-jre
 
-# Copy the jar file built in the first stage
+WORKDIR /app
+
+# Copy the JAR file from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port that Spring Boot will use
 EXPOSE 8080
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
